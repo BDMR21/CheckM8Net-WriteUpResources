@@ -109,7 +109,11 @@
                         % and documentation can be obtained at:
                         % http://www.ctan.org/tex-archive/macros/latex/required/amslatex/math/
 
-\usepackage{lipsum} % Dummy text
+\usepackage{lipsum}
+\usepackage{hyperref}
+\usepackage[backend=biber,style=science]{biblatex}
+\addbibresource{bibliography.bib}
+\usepackage{amssymb} % Dummy text
 
 
 % Other popular packages for formatting tables and equations include:
@@ -179,119 +183,247 @@
 \begin{document}
 
 % Define document title and author
-	\title{Template Rapport Scientifique}
-	\author{Prenom Nom
-	\thanks{Superviseur: xxx}}
+	\title{Rapport Projet BlockChain}
+	\author{Ben David MALYANE - 471086}
+%	\thanks{Superviseur: xxx}}
 	\markboth{INFO-F308}{}
 	\maketitle
 
 % Write abstract here
 \begin{abstract}
-	Le résumé (80-100 mots) est conçu pour donner au lecteur une vue générale du contenu de l'article. 
+	Ce rapport présente le travail réalisé dans le cadre du projet d'informatique 3 trandisciplinaire qui consistait
+	à implémenter une application de type BlockChain à usage ludique.
+	Cette application devrait permettre de décentraliser la gestion des résultats de partie de jeu quelconque.
+	Nous parlerons des choix de conception et d'implémentation qui ont été faits pour réaliser cette application.
 \end{abstract}
 
 % Each section begins with a \section{title} command
-\section{Introduction}
-	% \PARstart{}{} creates a tall first letter for this first paragraph
-	\PARstart{C}{ette} section donne une introduction générale du problème scientifique abordé et décrit la structure de l'article. Des questions souvent abordées ici sont :
-	\begin{itemize}
-	\item Quelles sont les applications du problème abordées ?
-	\item Pourquoi la résolution du problème est importante ?
-	\end{itemize}	  
+\section{Introduction}\label{sec:introduction}
+	% \IEEEPARstart{}{} creates a tall first letter for this first paragraph
+	\IEEEPARstart{C}{e} rapport présente le travail que nous avons réalisé dans le cadre du projet d'informatique 3 trandisciplinaire visant à réaliser une blockchain à usage ludique.
+	L'objectif principal était de décentraliser la gestion des résultats de jeu quelconque, en  utilisant  les principes fondamentaux de la BlockChain pour assurer l'équité,
+	la transparence et la sécurité.
 
-\section{Etat de l'art}
-	Cette section permet de décrire l'état de l'art concernant la question abordée (c-à-d les meilleures solutions disponibles à présent) et de positionner votre travail par rapport à cet état de l'art.
-	Les différents articles que vous avez lus et utilisés doivent être correctement référencés (Exemple: \cite{small},\cite{big}).
-	Les informations bibliographiques doivent être encodées dans le fichier \texttt{References.bib} avec la syntaxe indiquée par les exemples.
-	Articles publiés sur une revue scientifique / dans les conference proceedings, ainsi que des livres, sont des exemples de bonnes références.
-	Par contre, la citation de sources web doit être limitée le plus possible (permis dans le cas de la documentation d'outils informatiques).
-
-% Main Part
-\section{Méthodologie}\label{sec:met}
-	Cette section doit décrire, en manière détaillée:
+	Au cours de ce rapport :
+	%itemize with bullets points
 	\begin{itemize}
-	\item Les hypothèses de base de votre approche
-	\item Les fondements mathématiques
-	\item La méthode proposée
-	\item Les jeux de données utilisés (si nécessaire)
-	\item Les instructions nécessaires pour pouvoir reproduire les expériences (par exemple pseudo-code), 
+		\item[•] Nous présenterons les choix de conception et d'implémentation que nous avons fait afin de réaliser cette application,
+		\item[•] Nous explorerons les différentes étapes du processus de développement en mettant l'accent sur les technologies utilisées
+	et les architectures mises en place,
+		\item[•] Nous aborderons les problèmes rencontrés ainsi que les solutions qui ont été apportées,
+		\item[•] Nous présenterons les fonctionnalités clés de notre application, telles que la gestion transparente
+		des participant, la vérification des résultats et la gestion des récompenses base de nos incitatifs ainsi que la sécurité des données,
+		\item[•] Nous expliquerons les mécanismes de consensus et les protocoles de sécurité mis en place pour assurer la fiabilité de notre application.
 	\end{itemize}
-	
-	Ici vous pouvez trouver deux exemples de notation mathématique:
-	\begin{equation} 
-	 f(x)=(x+a)(x+b)
-	\end{equation}
 
-	Maxwell's equations:
-\begin{align}
-        B'&=-\nabla \times E,\\
-        E'&=\nabla \times B - 4\pi j,
-\end{align}
+
+\section{BlockChain}\label{sec:blockchain}
+
+	\subsection{\textbf{Définition}}\label{subsec:definition}
+
+		La Blockchain est une technologie de stockage et de transmission d'informations, transparente, sécurisée,
+		et fonctionnant sans organe central de contrôle.
+	Elle agit comme un grand livre de compte, ouvert et consultable par tous les utilisateurs, qui contient l'historique
+		de toutes les transactions effectuées entre ses utilisateurs depuis sa création~\cite{blockchain}.
+	Utilisée par les crypto-monnaies telles que le Bitcoin, la Blockchain garantit l'intégrité et la sécurité des données
+	en permettant un stockage décentralisé et en rendant presque impossible les modifications rétroactives.
+	Cette technologie offre ainsi un moyen fiable et transparent de gérer et de transmettre des informations,
+	ouvrant la voie à de nombreuses applications dans divers domaines.
+
+	\subsection{\textbf{Structure d'une BlockChain: Composants et fonctionnement}}\label{subsec:structure}
+
+			Une BlockChain, comme son nom l'indique, est une série de blocs de données chainés les uns aux autres par des liens de hachage cryptographiques.
+		Elle est composée de plusieurs éléments clés qui travaillent ensemble pour assurer la sécurité et la fiabilité du système.
+		Les principaux éléments de la structure d'une Blockchain sont les suivants:
+			\begin{enumerate}
+				\item \textbf{Blocs:} Chaque bloc contient un ensemble de transactions, un hachage de bloc précédent et un hachage de bloc courant.
+				\item \textbf{Chaîne de blocs:} La chaîne de blocs est une liste de blocs liés les uns aux autres par des hachages cryptographiques.
+				\item \textbf{Transactions:} Les transactions représentent les opérations effectuées par les utilisateurs de la BlockChain.
+				Cela peut inclure des transferts de crypto-monnaies, des contrats intelligents ou d'autres types d'actions enregistrées dans la BlockChain.
+				\item \textbf{Mécanisme de consensus:} Le mécanisme de consensus est un protocole qui permet aux nœuds de la BlockChain de s'accorder sur l'état de la BlockChain.
+				\item \textbf{Cryptographie:} La cryptographie est utilisée pour sécuriser les données et les transactions dans la BlockChain.
+				\item \textbf{Réseau P2P:} Le réseau P2P est un réseau décentralisé qui permet aux nœuds de la BlockChain de communiquer entre eux.
+				\item \textbf{Contrats intelligents:} Les contrats intelligents sont des programmes autonomes qui s'exécutent sur la BlockChain.
+			\end{enumerate}
+
+	\subsection{\textbf{Le concept des signatures électroniques: Assurer l'authenticité et l'intégrité des données électroniques}}\label{subsec:signature}
+			Les signatures électroniques sont un concept clé de la cryptographie moderne.
+		Elles sont utilisées pour assurer l'authenticité, l'intégrité et la non-répudiation des données électroniques.
+		Elles reposent sur le principe de la cryptographie asymétrique, qui utilise une paire de clés (publique et privé) pour chiffrer et déchiffrer les données,
+		permettant ainsi de vérifier l'identité de l'auteur d'un document ou d'une transaction numérique et d'assurer l'intégrité du contenu depuis sa signature.
+
+		Le proecessus de signature électronique se déroule en trois étapes:
+			\begin{enumerate}
+				\item \textbf{Génération de la paire de clés:} L'auteur génère une paire de clés (publique et privée) et rend publique sa clé publique.
+				\item \textbf{Signature:} Pour créer une signature unique, l'auteur utilise sa clé privée pour chiffrer l'empreinte numérique du document
+				à l'aide d'un algorithme de hachage cryptographique.
+				\item \textbf{Vérification:} Le destinataire vérifie la signature avec la clé publique de l'auteur.
+			\end{enumerate}
+
+		La comparaison de l'empreinte numérique déchiffrée avec celle du document original permet de vérifier l'authenticité et l'intégrité du document.
+		Cette signature empêche également l'auteur de nier avoir signé le document, car la clé privée est unique et ne peut être utilisée que par son propriétaire.
 
 % Main Part
-\section{Résultats}
-	Cette section doit contenir les résultats que vous avez obtenu avec la méthodologie décrite dans la section \ref{sec:met}.
-	Les résultats devront être présentés de préférence sous forme de tableau (cf. Table~\ref{tab:simParameters}) et/ou du diagramme (cf. Fig.~\ref{fig:tf_plot}), et correctement référencés.
-	Les conditions d'expérimentation (c-à-d matériel et logiciels utilisés) devront être ainsi indiquées.
-	En plus des résultats mêmes, cette section devra contenir votre propre analyse et discussion de résultats (par exemple comparaison par rapport à une méthode de référence)
+\section{CheckM8Net : Blockchain ludique}\label{sec:checkm8net-:-blockchain-ludique}
+	Cette section présente les aspects essentiels du projet, tels que les choix de conception, les problèmes rencontrés et les solutions apportées.
+	Nous commencerons par décrire en détail la structure de notre blockchain et la gestion du réseau.
+	Ensuite, nous évaluerons les performances de notre implémentation et nous discuterons des limites, ainsi que des hypothèses et
+	des simplifications que nous avons faites lors de la conception, telles que les blocs, la présence d'un arbitre et les droits accordés aux joueurs.
+	Enfin nous ferons une analyse approfondie des incitatifs mis en place sera également présentée, en examinant leur efficacité pour résoudre
+	les problèmes et en envisageant les éventuels contournements par un joueur malveillant.
 
-% This is how you define a table: the [!hbt] means that LaTeX is forced (by the !) to place the table exactly here (by h), or if that doesnt work because of a pagebreak or so, it tries to place the table to the bottom of the page (by b) or the top (by t).
-	\begin{table}[!hbt]
-		% Center the table
+	\subsection{Choix de conception}\label{subsec:choix-de-conception}
 		\begin{center}
-		% Title of the table
-		\caption{Simulation Parameters}
-		\label{tab:simParameters}
-		% Table itself: here we have two columns which are centered and have lines to the left, right and in the middle: |c|c|
-		\begin{tabular}{|c|c|}
-			% To create a horizontal line, type \hline
-			\hline
-			% To end a column type &
-			% For a linebreak type \\
-			Information message length & $k=16000$ bit \\
-			\hline
-			Radio segment size & $b=160$ bit \\
-			\hline
-			Rate of component codes & $R_{cc}=1/3$\\
-			\hline
-			Polynomial of component encoders & $[1 , 33/37 , 25/37]_8$\\
-			\hline
-		\end{tabular}
+			\subsubsection*{\textbf{Structure de notre blockchain}}\label{subsubsec:structure-de-notre-blockchain}
 		\end{center}
-	\end{table}
-	
-	% This is how you include a eps figure in your document. LaTeX only accepts EPS or TIFF files.
-	\begin{figure}[!hbt]
-		% Center the figure.
+
+			Notre blockchain implémente une structure plutôt habituelle, avec des blocs, des transactions,
+		des signatures électroniques ainsi qu'un mécanisme de consensus, à la seule différence que nous simplifions la structure
+		interne des blocs en ne considérant qu'une seule transaction par bloc.
+
+		Nous manipulons différents types de transactions, mais ici nous mettrons l'accent sur les deux principales qui sont les suivantes:
+			\begin{enumerate}
+				\item \textbf{Transaction de nouvelles parties:} Cette transaction est utilisée par les joueurs ou les arbitres  pour créer une nouvelle partie de jeu.
+					Elle se compose des informations suivantes:
+					\begin{itemize}
+						\item[•] \textbf{signature:} Signature de la transaction.
+						\item[•] \textbf{timestamp:} Horodatage de la transaction.
+						\item[•] \textbf{sender:} Adresse du joueur ou de l'arbitre qui a initié la transaction.
+						\item[•] \textbf{game id:} Identifiant de la partie.
+						\item[•] \textbf{player 1:} Clé publique du joueur 1.
+						\item[•] \textbf{player 2:} Clé publique du joueur 2.
+						\item[•] \textbf{referees:} Liste des clés publiques des arbitres.
+					\end{itemize}
+
+				\item \textbf{Transaction de résulats de partie:} Cette transaction est utilisée par les arbitres pour déclarer le résultat d'une partie.
+					Elle se compose des informations suivantes:
+				    \begin{itemize}
+						\item[•] \textbf{signature:} Signature de la transaction.
+						\item[•] \textbf{timestamp:} Horodatage de la transaction.
+						\item[•] \textbf{sender:} Adresse du joueur ou de l'arbitre qui a initié la transaction.
+						\item[•] \textbf{game id:} Identifiant de la partie.
+						\item[•] \textbf{player 1:} Clé publique du joueur 1.
+						\item[•] \textbf{player 2:} Clé publique du joueur 2.
+						\item[•] \textbf{result:} Résultat de la partie.
+						\item[•] \textbf{referees:} Liste des clés publiques des arbitres.
+					\end{itemize}
+			\end{enumerate}
+
+			Nous avons défini un mécanisme de consensus qui permet de valider la version de la blockchain la plus pertinente
+			c'est-à-dire la plus longue, soit celle avec le score le plus élevé.
+			Le score d'un bloc est calculé comme suit:
+			\begin{equation}
+				\label{eq:equation}
+				\text{Score bloackchain} = #\text{transactions|bloc}
+			\end{equation}
+
+			Ainsi si le résultat de la partie est validé par tous les participants de la partie, alors le bloc est validé et ajouté à la blockchain.
+			Sinon, si il y a un désaccord, le bloc est tout de même accepté mais les joueurs et les arbitres sont pénalisés.
+			Ce mécanisme nous permet alors d'établir les scores ELO pour les joueurs et les trusts pour les arbitres.
+
 		\begin{center}
-		% Include the eps file, scale it such that it's width equals the column width. You can also put width=8cm for example...
-		%\includegraphics[width=\columnwidth]{plot_tf}
-		% Create a subtitle for the figure.
-		\caption{Simulation results on the AWGN channel. Average throughput $k/n$ vs $E_s/N_0$.}
-		% Define the label of the figure. It's good to use 'fig:title', so you know that the label belongs to a figure.
-		\label{fig:tf_plot}
+			\subsubsection*{\textbf{Gestion du réseau}}\label{subsubsec:gestion-du-réseau}
 		\end{center}
-	\end{figure}
 
-\section{Conclusion}
-Cette section contient un rappel des contributions / de résultats importants de votre article et éventuellement une indication sur les perspectives de recherche future dans le même domaine.
+				En ce qui concerne l'architecture réseau de notre blockchain, nous avons opté pour une approche peer-to-peer (P2P)
+			pour la simple raison que cela nous permet d'avoir le réseau décentralisé que nous recherchions.
+			Cette architecture décentralisée présente de nombreux avantages, notamment une plus grande résilience face aux attaques et surtout
+			une distribution équitables des données dans le réseau.
+			Ainsi les nodes servers peuvent se synchroniser entre eux.
+
+				Pour ce qui est des nodes servers, nous avons choisi d'utiliser le framework \textbf{Django} ~\cite{Django} sur Python afin de développer notre blockchain.
+			Au moyen de Django, nous avons créé une API REST, qui permet aux nodes du réseau de communiquer entre eux de mannière asynchrone.
+			Cette communication entre les nodes est basée sur un mécanisme de gossip, assurée par les signaux de Django.
+			Lorsqu'un node server reçoit un nouveau bloc, il le propage aux nodes dont il a connaissance, qui eux-mêmes le propagent à leur tour.
+			Cela nous permet de toujours avoir la même version de la blockchain sur tout le réseau après validation d'un bloc.
+
+				Il nous a fallu également intégrer un système d'ordonnancement des messages en utilisant le système de
+			messagerie RabbitMQ ~\cite{RabbitMQ}, de sorte à pouvoir maintenir l'intégrité des données et d'éviter les pertes ou
+			les incohérences lors de la transmission des messages.
+			Associé à RabbitMQ, nous avons utilisé le système de gestion de tâches Celery ~\cite{Celery}, qui nous a permis de gérer
+			les tâches asynchrones et de pouvoir les exécuter en arrière-plan.
+
+				Nos avons choisis d'héberger nos serveurs sur des machines virtuelles fournies par \textbf{DigitalOcean}.
+			Et pour faciliter l'accès à nos serveurs (nodes servers), nous avons enregistré un nom de domaine \textbf{\url{http://www.checkm8.cloud/}}.
+			Ce domaine nous permet de répertorier dans un A record, les adresses IP de nos nodes servers et par la méthode de round-robin,
+			un serveur est choisi aléatoirement pour répondre à une requête utilisateur.
+
+	\subsection{Problèmes rencontrés et solutions apportées}\label{subsec:problèmes-rencontrés-et-solutions-apportées}
+		\begin{center}
+			\subsubsection*{\textbf{Problèmes rencontrés}}\label{subsubsec:problèmes-rencontrés}
+		\end{center}
+
+		\begin{itemize}
+			\item[•] Structure d'un bloc
+			\item[•]
+		\end{itemize}
+
+		\begin{center}
+			\subsubsection*{\textbf{Solutions apportées}}\label{subsubsec:solutions-apportées}
+		\end{center}
+
+	\subsection{Performances}\label{subsec:performances}
+		\begin{center}
+			\subsubsection*{\textbf{Performances de notre implémentation}}\label{subsubsec:performances-de-notre-implémentation}
+		\end{center}
+
+		\begin{center}
+			\subsubsection*{\textbf{Limites, hypothèses et simplifications}}\label{subsubsec:limites,-hypothèses-et-simplifications}
+		\end{center}
+%			Il est important de noter que, bien que nous ayons prévu la possibilité d'intégrer la fonctionnalité de vote
+%			pour les joueurs dans l'application mobile, nous ne l'avons pas encore implémentée.
+%			Cependant, notre API est conçue pour prendre en charge cette fonctionnalité de vote. TODO
+
+	\subsection{Analyse des incitatifs}\label{subsec:analyse-des-incitatifs}
+		\begin{center}
+			\subsubsection*{\textbf{Analyse des incitatifs mis en place}}\label{subsubsec:analyse-des-incitatifs-mis-en-place}
+		\end{center}
+			Nous avons pensé CheckM8Net sur base de deux types d'acteurs que sont les joueurs et les arbitres.
+			Ce qui nous a mené à avoir différents incitatifs pour chacun de nos acteurs dans le but de les encourager
+			à participer de manière active dans le réseau.
+
+			Pour les joueurs, notre blockchain les incite à améliorer leur score ELO en jouant des parties de jeu.
+			Le score ELO~\cite{ELO} est un système de classement utilisé dans les jeux compétitifs tels que les échecs, le go, etc.
+			Initialement ce score est initialisé à 1000 et sur base d'un algorithme de calcul, plus un joueur gagne des parties,
+			son score augmente, et plus il en perd, son score diminue.
+			Les joueurs sont donc incités à joueur des parties et surtout à les emporter dans le but d'être le mieux classé.
+
+			Concernant les arbitres, notre blockchain les incite à améliorer leur score d'arbitrage (Trusts) en contribuant
+			à des parties de jeu sur notre blockchain.
+			Initialement ce trust est initialisé à 0.5 et sur base d'une fonction logistique, on le calcule.
+			Cette fonction est basé sur l'état du consensus parmi tous les participants qui ont approuvé ou non
+			le résultat de la partie de jeux.
+			Ainsi, si un arbitre donne des résultats incorrects, il perd en confiance dans le réseau, sinon il en gagne.
+
+		\begin{center}
+			\subsubsection*{\textbf{Contournement par un joueur/arbitre malveillant}}\label{subsubsec:contournement-par-un-joueur-malveillant}
+		\end{center}
+			Bien que notre système d'incitatifs vise à encourager une participation honnête et à dissuader les comportements malveillants,
+			nous sommes potentiellement sujet à certains contournements, telles que:
+			\begin{enumerate}
+				\item \textbf{Les attaques Sybil:} Ces attaques consistent à créer une grande quantités d'identités ou comptes
+					afin d'influencer les résultats dans le but de manipuler les classements~\cite{Sybil}.
+				\item \textbf{La manipulation des résultats:} Cette attaque pourrait se produire par la collusion avec d'autres joueurs ou arbitres.
+					Un joueur malveillant pourrait tenter de manipuler les résultats afin d'obtenir un meilleure score ELO
+					ou un arbitre malveillant pourrait le faire pour obtenir un meilleur trust.
+			\end{enumerate}
 
 
-\bibliographystyle{unsrt}
-\bibliography{bibliography}
+\section{Conclusion}\label{sec:conclusion}
+	Cette section contient un rappel des contributions / de résultats importants de votre article et éventuellement une indication sur les perspectives de recherche future dans le même domaine.
+
+% References
+\newpage
+\section*{\textbf{Références}}\label{sec:références}
+	\printbibliography[heading=none]
 
 \newpage
 		
 \appendices
-\section{Consignes}
-% Main Part
-\subsection*{Document}
-	% LaTeX takes complete care of your document layout ...
-	Le rapport doit être rédigé en \LaTeX{} en utilisant ce template.
-	La longueur du rapport ne devra pas, en tout cas, dépasser les 6 pages.
-	Ce rapport doit être \emph{self-contained}, c-à-d il doit pouvoir être lu et compris sans avoir besoin de se documenter ailleurs.
-
 
 
 % Your document ends here!
 \end{document}
+
+les transactions de résultat de partie et ainsi
+	de valider le bloc (transaction).
